@@ -1,0 +1,168 @@
+SQL> 
+SQL> DROP TABLE xyz_EmployeeWebsites;
+
+Table dropped.
+
+SQL> DROP TABLE xyz_Employee;
+
+Table dropped.
+
+SQL> DROP TABLE xyz_Access;
+
+Table dropped.
+
+SQL> DROP TABLE xyz_Website;
+
+Table dropped.
+
+SQL> 
+SQL> CREATE TABLE xyz_Website (
+  2  	 URL VARCHAR2(50),
+  3  	 CONSTRAINT SYS_xyzWebsite_PK PRIMARY KEY (URL)
+  4  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE xyz_Access (
+  2  	 accessCode CHAR(1),
+  3  	 accessDescription VARCHAR2(20)
+  4  );
+
+Table created.
+
+SQL> 
+SQL> ALTER TABLE xyz_Access
+  2  ADD CONSTRAINT SYS_xyzAccess_PK PRIMARY KEY(accessCode);
+
+Table altered.
+
+SQL> ALTER TABLE xyz_Access
+  2  ADD CONSTRAINT SYS_Access_accessCode_CK CHECK(accessCode IN ('M', 'A', 'E', 'C'));
+
+Table altered.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> CREATE TABLE xyz_Employee (
+  2  	 staffID NUMBER,
+  3  	 emailAddress VARCHAR2(50),
+  4  	 firstName VARCHAR2(30) CONSTRAINT SYS_Employee_firstName_NN NOT NULL,
+  5  	 lastName VARCHAR2(30) CONSTRAINT SYS_Employee_lastName_NN NOT NULL,
+  6  	 phoneNumber NUMBER(10),
+  7  	 accessCode CHAR(1),
+  8  	 CONSTRAINT SYS_xyzEmployee_PK PRIMARY KEY (staffID),
+  9  	 CONSTRAINT SYS_xyzEmployee_emailAddress_UK UNIQUE (emailAddress),
+ 10  	 CONSTRAINT SYS_Access_Employee_FK FOREIGN KEY (accessCode) REFERENCES xyz_Access (accessCode)
+ 11  );
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> CREATE TABLE xyz_EmployeeWebsites(
+  2  	 URL VARCHAR2(50),
+  3  	 staffID NUMBER,
+  4  	 datetimeAccessed DATE,
+  5  	 CONSTRAINT SYS_xyzEmployeeWebsites_PK PRIMARY KEY (URL, staffID),
+  6  	 CONSTRAINT SYS_Website_EmployeeWebsites_FK FOREIGN KEY (URL) REFERENCES xyz_Website (URL),
+  7  	 CONSTRAINT SYS_Employee_EmployeeWebsites_FK FOREIGN KEY (staffID) REFERENCES xyz_Employee (staffID)
+  8  );
+
+Table created.
+
+SQL> 
+SQL> SET LINESIZE 50
+SQL> describe xyz_Website;
+ Name                    Null?    Type
+ ----------------------- -------- ----------------
+ URL                     NOT NULL VARCHAR2(50)
+
+SQL> describe xyz_Access;
+ Name                    Null?    Type
+ ----------------------- -------- ----------------
+ ACCESSCODE              NOT NULL CHAR(1)
+ ACCESSDESCRIPTION                VARCHAR2(20)
+
+SQL> describe xyz_Employee;
+ Name                    Null?    Type
+ ----------------------- -------- ----------------
+ STAFFID                 NOT NULL NUMBER
+ EMAILADDRESS                     VARCHAR2(50)
+ FIRSTNAME               NOT NULL VARCHAR2(30)
+ LASTNAME                NOT NULL VARCHAR2(30)
+ PHONENUMBER                      NUMBER(10)
+ ACCESSCODE                       CHAR(1)
+
+SQL> describe xyz_EmployeeWebsites;
+ Name                    Null?    Type
+ ----------------------- -------- ----------------
+ URL                     NOT NULL VARCHAR2(50)
+ STAFFID                 NOT NULL NUMBER
+ DATETIMEACCESSED                 DATE
+
+SQL> 
+SQL> SET LINESIZE 500
+SQL> COLUMN constraint_name FORMAT A45
+SQL> COLUMN column_name FORMAT A30
+SQL> SELECT constraint_name, column_name
+  2  FROM user_cons_columns
+  3  WHERE table_name = 'XYZ_WEBSITE';
+
+CONSTRAINT_NAME                               COLUMN_NAME                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+--------------------------------------------- ------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                        
+SYS_XYZWEBSITE_PK                             URL                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+
+SQL> 
+SQL> SET LINESIZE 500
+SQL> COLUMN constraint_name FORMAT A45
+SQL> COLUMN column_name FORMAT A30
+SQL> SELECT constraint_name, column_name
+  2  FROM user_cons_columns
+  3  WHERE table_name = 'XYZ_ACCESS';
+
+CONSTRAINT_NAME                               COLUMN_NAME                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+--------------------------------------------- ------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                        
+SYS_XYZACCESS_PK                              ACCESSCODE                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+SYS_ACCESS_ACCESSCODE_CK                      ACCESSCODE                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+SQL> 
+SQL> SET LINESIZE 500
+SQL> COLUMN constraint_name FORMAT A45
+SQL> COLUMN column_name FORMAT A30
+SQL> SELECT constraint_name, column_name
+  2  FROM user_cons_columns
+  3  WHERE table_name = 'XYZ_EMPLOYEE';
+
+CONSTRAINT_NAME                               COLUMN_NAME                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+--------------------------------------------- ------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                        
+SYS_EMPLOYEE_FIRSTNAME_NN                     FIRSTNAME                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+SYS_EMPLOYEE_LASTNAME_NN                      LASTNAME                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+SYS_XYZEMPLOYEE_PK                            STAFFID                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+SYS_XYZEMPLOYEE_EMAILADDRESS_UK               EMAILADDRESS                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+SYS_ACCESS_EMPLOYEE_FK                        ACCESSCODE                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+SQL> 
+SQL> SET LINESIZE 500
+SQL> COLUMN constraint_name FORMAT A45
+SQL> COLUMN column_name FORMAT A30
+SQL> SELECT constraint_name, column_name
+  2  FROM user_cons_columns
+  3  WHERE table_name = 'XYZ_EMPLOYEEWEBSITES';
+
+CONSTRAINT_NAME                               COLUMN_NAME                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+--------------------------------------------- ------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                        
+SYS_XYZEMPLOYEEWEBSITES_PK                    URL                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+SYS_XYZEMPLOYEEWEBSITES_PK                    STAFFID                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+SYS_WEBSITE_EMPLOYEEWEBSITES_FK               URL                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+SYS_EMPLOYEE_EMPLOYEEWEBSITES_FK              STAFFID                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> SPOOL OFF;

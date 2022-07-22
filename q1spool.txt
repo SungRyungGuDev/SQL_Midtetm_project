@@ -1,0 +1,78 @@
+SQL> 
+SQL> DROP Table xyz_EmployeeWebsites;
+
+Table dropped.
+
+SQL> DROP Table xyz_employee;
+
+Table dropped.
+
+SQL> DROP Table xyz_access;
+
+Table dropped.
+
+SQL> DROP Table xyz_website;
+
+Table dropped.
+
+SQL> 
+SQL> CREATE TABLE xyz_Access (
+  2  	 accessCode CHAR(1),
+  3  	 accessDescription VARCHAR2(20)
+  4  );
+
+Table created.
+
+SQL> 
+SQL> ALTER TABLE xyz_Access
+  2  ADD CONSTRAINT SYS_xyz_Access_PK PRIMARY KEY (accessCode);
+
+Table altered.
+
+SQL> 
+SQL> ALTER TABLE xyz_Access
+  2  ADD CONSTRAINT SYS_Access_accessCode_CK CHECK (accessCode IN ('M', 'A', 'E', 'C'));
+
+Table altered.
+
+SQL> 
+SQL> CREATE TABLE xyz_Website (
+  2  	 URL VARCHAR2(50),
+  3  	 CONSTRAINT SYS_xyz_Website_PK PRIMARY KEY (URL)
+  4  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE xyz_Employee (
+  2  	 staffID NUMBER,
+  3  	 emailAddress VARCHAR2(50),
+  4  	 firstName VARCHAR2(30) CONSTRAINT SYS_Employee_firstName_NN NOT NULL,
+  5  	 LastName VARCHAR2(30) CONSTRAINT SYS_Employee_lastName_NN NOT NULL,
+  6  	 phoneNumber NUMBER(10),
+  7  	 accessCode CHAR(1),
+  8  	 CONSTRAINT SYS_xyz_Employee_PK PRIMARY KEY (staffID),
+  9  	 CONSTRAINT SYS_Access_Employee_FK FOREIGN KEY (accessCode) REFERENCES xyz_Access (accessCode)
+ 10  );
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE xyz_EmployeeWebsites (
+  2  	 URL VARCHAR2(50),
+  3  	 staffID NUMBER,
+  4  	 datetimeAccessed DATE,
+  5  	 CONSTRAINT SYS_xyz_EmployeeWebsites_PK PRIMARY KEY (URL, staffID),
+  6  	 CONSTRAINT SYS_Website_EmployeeWebsites_FK FOREIGN KEY (URL) REFERENCES xyz_Website (URL),
+  7  	 CONSTRAINT SYS_Employee_EmployeeWebsites_FK FOREIGN KEY (staffID) REFERENCES xyz_Employee (staffID)
+  8  );
+
+Table created.
+
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> spool OFF;

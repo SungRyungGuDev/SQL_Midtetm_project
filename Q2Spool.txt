@@ -1,0 +1,60 @@
+SQL> /*For my instructor, I will spooling this Data*/
+SQL>
+SQL> /*Before inputting Datas, Show previous table*/
+SQL> 
+SQL> SELECT * FROM GHC_COURSE;
+
+COURSE_ COURSE_TITLE                                                    CREDITS                                                                                                                                                                                                                                                                                                                                                                                                                                     
+------- ------------------------------------------------------------ ----------                                                                                                                                                                                                                                                                                                                                                                                                                                     
+CMPS253 Interface Design                                                      3                                                                                                                                                                                                                                                                                                                                                                                                                                     
+CPRG250 Database Design and Programming                                       3                                                                                                                                                                                                                                                                                                                                                                                                                                     
+CPRG251 Object Oriented Programming Essentials                                3                                                                                                                                                                                                                                                                                                                                                                                                                                     
+CPRG302 Web Essentials                                                        3                                                                                                                                                                                                                                                                                                                                                                                                                                     
+HREL250 Business Dynamics                                                     3                                                                                                                                                                                                                                                                                                                                                                                                                                     
+
+SQL> 
+SQL> /*Input the Datas for Course*/
+SQL> 
+SQL> INSERT INTO GHC_COURSE (Course_code, Course_title, credits)
+  2  	 VALUES ('ASTR100', 'Intro to Astronomy', 3);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO GHC_COURSE (Course_code, Course_title, credits)
+  2  	 VALUES ('ASTR202', 'The Planets', 3);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO GHC_COURSE (Course_code, Course_title, credits)
+  2  	 VALUES ('ASTR203', 'Nebula and Distant Galaxies', 5);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> /*After inputting Datas, Show table result*/
+SQL> SELECT * FROM GHC_COURSE;
+
+COURSE_ COURSE_TITLE                                                    CREDITS                                                                                                                                                                                                                                                                                                                                                                                                                                     
+------- ------------------------------------------------------------ ----------                                                                                                                                                                                                                                                                                                                                                                                                                                     
+CMPS253 Interface Design                                                      3                                                                                                                                                                                                                                                                                                                                                                                                                                     
+CPRG250 Database Design and Programming                                       3                                                                                                                                                                                                                                                                                                                                                                                                                                     
+CPRG251 Object Oriented Programming Essentials                                3                                                                                                                                                                                                                                                                                                                                                                                                                                     
+CPRG302 Web Essentials                                                        3                                                                                                                                                                                                                                                                                                                                                                                                                                     
+HREL250 Business Dynamics                                                     3                                                                                                                                                                                                                                                                                                                                                                                                                                     
+ASTR100 Intro to Astronomy                                                    3                                                                                                                                                                                                                                                                                                                                                                                                                                     
+ASTR202 The Planets                                                           3                                                                                                                                                                                                                                                                                                                                                                                                                                     
+ASTR203 Nebula and Distant Galaxies                                           5                                                                                                                                                                                                                                                                                                                                                                                                                                     
+
+8 rows selected.
+
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> 
+SQL> SPOOL OFF;
